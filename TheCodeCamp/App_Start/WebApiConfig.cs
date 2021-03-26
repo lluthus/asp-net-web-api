@@ -9,7 +9,7 @@ namespace TheCodeCamp
   {
     public static void Register(HttpConfiguration config)
     {
-      // Web API configuration and services
+      // Web API configuration and services 
       AutofacConfig.Register();
 
       // Web API routes
