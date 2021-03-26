@@ -15,42 +15,36 @@ namespace TheCodeCamp.Controllers
 {
 	public class StreamController: ApiController
 	{
-      public delegate Task<string> SendData(Task<string> data);
-
-      Func<SendData,Task<int>> getData = async (sendData) =>
-      {
-         var i = 0;
-         foreach (var kvp in (new List<string> { "1", "2", "3", "4" }))
-         {
-            i++;
-            await Task.Delay(5000);
-            await sendData(Task.Run(()=> kvp));
-         }
-         return i;
-      };
 
       public HttpResponseMessage Get()
 		{
          var result = new HttpResponseMessage(HttpStatusCode.OK)
          {
-            Content = new PushStreamContent(streamInit(getData))
+            Content = new PushStreamContent(streamInit())
          };
-         result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-         result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = "MyZipfile.zip" };
+         result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/text");
+         //result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = "MyZipfile.zip" };
          return result;
       }
 
 
-      private Func<Stream, HttpContent, TransportContext, Task> streamInit(Object objGetData)
+      private Func<Stream, HttpContent, TransportContext, Task> streamInit()
 		{
 			async Task onStreamAvailable(Stream outputStream, HttpContent httpContext, TransportContext transportContext)
 			{
-            Func<Task<string>,bool> getDataPrimary = objGetData as Func<Task<string>, bool>;
             using (var streamWriter = new StreamWriter(outputStream))
 				{
-
                var i = 0;
-               foreach (var kvp in (new List<string> { "1", "2", "3", "4" }))
+
+               var obj1 = @"{""name"":""John"",
+                             ""age"":30}";
+               var obj2 = @"{""name"":""Patrick"",
+                             ""age"":25}";
+               var obj3 = @"{""name"":""Tom"",
+                             ""age"":22}";
+               var obj4 = @"{""name"":""Arci"",
+                             ""age"":12}";
+               foreach (var kvp in (new List<string> { obj1, obj2, obj3, obj4 }))
                {
                   i++;
                   await Task.Delay(5000);
