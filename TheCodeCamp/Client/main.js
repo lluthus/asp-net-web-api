@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,29 +37,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 function init() {
     var _this = this;
-    var input = document.querySelector('.input');
-    var output = document.querySelector('.output');
-    var close = document.querySelector('.close');
-    var channel = Math.random();
     fetch('http://aspnetwebapi101.azurewebsites.net/api/Stream', {
         headers: {
             'accept': 'application/json'
         }
     }).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
-        var reader, _a, done, value;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var reader, _a, done, value, output;
+        var _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
-                    _b.label = 1;
+                    reader = (_b = res.body) === null || _b === void 0 ? void 0 : _b.pipeThrough(new TextDecoderStream()).getReader();
+                    _c.label = 1;
                 case 1:
-                    if (!true) return [3, 3];
+                    if (!(true && reader)) return [3, 3];
                     return [4, reader.read()];
                 case 2:
-                    _a = _b.sent(), done = _a.done, value = _a.value;
+                    _a = _c.sent(), done = _a.done, value = _a.value;
                     if (done)
                         return [2];
-                    output.append(value);
+                    output = document.querySelector('.output');
+                    if (output && value) {
+                        output.append(value);
+                    }
                     return [3, 1];
                 case 3: return [2];
             }
