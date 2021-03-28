@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+   <script>
+
+		// Copyright 2018 Google LLC.
+		// SPDX-License-Identifier: Apache-2.0
+		function init() {
+			const input = document.querySelector('.input');
+			const output = document.querySelector('.output');
+			const close = document.querySelector('.close');
+			const channel = Math.random();
+
+			const supportsRequestStreams = !new Request('', {
+				body: new ReadableStream(),
+				method: 'POST',
+			}).headers.has('Content-Type');
+
+			if (!supportsRequestStreams) {
+				output.textContent = `It doesn't look like your browser supports request streams.`;
+				return;
+			}
+
+			const stream = new ReadableStream({
+				start(controller) {
+					input.addEventListener('input', (event) => {
+						event.preventDefault();
+						controller.enqueue(input.value);
+						input.value = '';
+					});
+
+					close.addEventListener('click', () => controller.close());
+				}
+			}).pipeThrough(new TextEncoderStream());
+
+			fetch(`/send?channel=${channel}`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'text/plain' },
+				body: stream,
+				allowHTTP1ForStreamingUpload: true,
+			});
+
+			fetch(`/receive?channel=${channel}`).then(async res => {
+				const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+				while (true) {
+					const { done, value } = await reader.read();
+					if (done) return;
+					output.append(value);
+				}
+			});
+		}
+
+		init();
+
+   </script>
+</head>
+<body>
+	<h1>Streaming requests with the fetch API</h1>
+	<p>
+		<input class="input" type="text" placeholder="Focus this and type some stuff" /> <button class="close">Close stream</button>
+	</p>
+	<p>
+		It won't appear in the text box. Instead, it'll be streamed to the server, and streamed from the server, and output below.
+		If you don't see text below as you type, then the streaming request isn't working correctly.
+	</p>
+	<p class="output"></p>
+</body>
+</html>
