@@ -207,7 +207,6 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Client\fetch.html" />
     <Content Include="Client\main.css" />
-    <Content Include="Client\main.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -242,7 +241,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="Client\main.js.map" />
     <Content Include="Client\package.json" />
     <Content Include="Client\tsconfig.json" />
     <None Include="packages.config" />

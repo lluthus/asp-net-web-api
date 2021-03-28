@@ -41,8 +41,9 @@ function init() {
     var close = document.querySelector('.close');
     var channel = Math.random();
     fetch('http://aspnetwebapi101.azurewebsites.net/api/Stream', {
-        mode: 'no-cors',
-        headers: { 'accept': 'application/json' }
+        headers: {
+            'accept': 'application/json'
+        }
     }).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
         var reader, _a, done, value;
         return __generator(this, function (_b) {

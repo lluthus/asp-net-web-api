@@ -35,9 +35,10 @@ function init() {
 	//	//allowHTTP1ForStreamingUpload: true,
 	//});
 
-	fetch('http://aspnetwebapi101.azurewebsites.net/api/Stream', {
-		mode: 'no-cors',  
-		headers: { 'accept': 'application/json' }
+	fetch('http://aspnetwebapi101.azurewebsites.net/api/Stream', { 
+		headers: {
+			'accept': 'application/json'
+		}
 	}).then(async res => {
 		const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
 		while (true) {
